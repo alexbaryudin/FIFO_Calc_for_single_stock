@@ -1,0 +1,152 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "FIFO calc for a single stock",
+      "description": "An API to calculate purchase price and current stock value",
+      "version": "0.1.0"
+    },
+    "servers": [
+      {
+        "url": "https://fifo-snake-app.1ojd3fmlv7hw.us-south.codeengine.appdomain.cloud",
+        "description": "fifo calc"
+      }
+    ],
+    "paths": {
+      "/calculate_fifo": {
+        "post": {
+          "summary": "FIFO calc for a single stock",
+          "description": "API Endpoint for calculating potential gain/loss for remaining inventory using FIFO.",
+          "operationId": "calculateFifo",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionsInput"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful Response",
+              "content": {
+                "application/json": {
+                  "schema": {}
+                }
+              }
+            },
+            "422": {
+              "description": "Validation Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/HTTPValidationError"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "HTTPValidationError": {
+          "properties": {
+            "detail": {
+              "items": {
+                "$ref": "#/components/schemas/ValidationError"
+              },
+              "type": "array",
+              "title": "Detail"
+            }
+          },
+          "type": "object",
+          "title": "HTTPValidationError"
+        },
+        "Transaction": {
+          "properties": {
+            "stock_name_t": {
+              "type": "string",
+              "title": "Stock Name"
+            },
+            "number_of_shares": {
+              "type": "number",
+              "title": "Number Of Shares"
+            },
+            "stock_price": {
+              "type": "number",
+              "nullable": true,
+              "title": "Stock Price"
+            }
+          },
+          "type": "object",
+          "required": [
+            "stock_name_t",
+            "number_of_shares",
+            "stock_price"
+          ],
+          "title": "Transaction"
+        },
+        "TransactionsInput": {
+          "properties": {
+            "transactions": {
+              "items": {
+                "$ref": "#/components/schemas/Transaction"
+              },
+              "type": "array",
+              "title": "Transactions"
+            },
+            "current_price": {
+              "type": "number",
+              "nullable": true,
+              "title": "Current Price"
+            }
+          },
+          "type": "object",
+          "required": [
+            "transactions"
+          ],
+          "title": "TransactionsInput"
+        },
+        "ValidationError": {
+          "properties": {
+            "loc": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "title": "Location"
+            },
+            "msg": {
+              "type": "string",
+              "title": "Message"
+            },
+            "type": {
+              "type": "string",
+              "title": "Error Type"
+            }
+          },
+          "type": "object",
+          "required": [
+            "loc",
+            "msg",
+            "type"
+          ],
+          "title": "ValidationError"
+        }
+      },
+      "securitySchemes": {
+        "basicAuth": {
+          "type": "http",
+          "scheme": "basic"
+        }
+      }
+    }
+  }

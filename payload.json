@@ -1,0 +1,10 @@
+{
+      "transactions": [
+        
+            {"stock_name_t": "AAPL", "number_of_shares": 100, "stock_price": 150,"aa": 12},
+            {"stock_name_t": "AAPL", "number_of_shares": 200, "stock_price": 155,"aa": 12},
+            {"stock_name_t": "AAPL", "number_of_shares": -150, "stock_price": 155,"aa": 12}
+        
+      ]
+    }
+    
